@@ -10,11 +10,12 @@ intents = discord.Intents.default()
 intents.message_content = True
 r = sr.Recognizer()
 bot = commands.Bot(command_prefix='!', intents=intents)
-wordlist = ["cock", "balls", "shaft", "dick", "penis", "pussy", "cunt", "ball"]
+#example wordlist
+wordlist = ["bad, word"]
 
 @bot.event
 async def on_ready():
-    print("logged in")
+     print("logged in")
 
 @bot.event
 async def on_message(ctx):
@@ -68,8 +69,8 @@ async def once_done(sink: discord.sinks, ctx):
         with open("SpeechtoDecipher.mp3", "wb") as f:
             f.write(audio.file.getbuffer())
     #Turns audio from MP3 to WAV so SpeechRecognizer can translate it
-    newsound = AudioSegment.from_mp3("C:\\Users\\aidan\\PycharmProjects\\MrBeastBot\\SpeechtoDecipher.mp3")
-    newsound.export("C:\\Users\\aidan\\PycharmProjects\\MrBeastBot\\SpeechtoDecipher.wav", format="wav")
+    newsound = AudioSegment.from_mp3("SpeechtoDecipher.mp3")
+    newsound.export("SpeechtoDecipher.wav", format="wav")
     exportedaudio = "SpeechtoDecipher.wav"
     #Use SpeechRecognizer to transcribe the audio, then looks for the words to enable playsound
     try:
@@ -106,4 +107,4 @@ async def stop(ctx):
         await ctx.send("I am currently not recording here.")  # Respond with this if we aren't recording.
 
 
-bot.run('MTE2NzkzMDg4NjA3MTc3OTMyOQ.GJsyMm.pwKnvGuznBnYWsetTZD1ZYDQM6t2LDahsgQopw')
+#bot.run('insert token here')
