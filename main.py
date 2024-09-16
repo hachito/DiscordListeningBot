@@ -11,7 +11,7 @@ intents.message_content = True
 r = sr.Recognizer()
 bot = commands.Bot(command_prefix='!', intents=intents)
 #example wordlist
-wordlist = ["bad, word"]
+wordlist = ["bad", "word"]
 
 @bot.event
 async def on_ready():
@@ -49,17 +49,19 @@ async def listen(ctx):
 async def recorder(ctx):
     #Loop to make the bot actively record and transcribe what the users are saying
     client = discord.utils.get(bot.voice_clients, guild=ctx.guild)
-    #if bot is already in call, does not connect, but repeats rest of code
+    #if bot is already in call, just repeat the code
     if client:
         vc = connections[ctx.guild.id]
         connections.update({ctx.guild.id: vc})
         vc.start_recording(discord.sinks.MP3Sink(), once_done, ctx.channel)
+        # sleep to make the audio file that's around the length of a normal sentence.
         await asyncio.sleep(4)
         vc.stop_recording()
         return
     vc = await ctx.author.voice.channel.connect()
     connections.update({ctx.guild.id: vc})
     vc.start_recording(discord.sinks.MP3Sink(), once_done, ctx.channel)
+    # sleep to make the audio file that's around the length of a normal sentence.
     await asyncio.sleep(4)
     vc.stop_recording()
 
@@ -94,6 +96,7 @@ def playsound(ctx):
         vc.play(discord.FFmpegPCMAudio('Huh.wav'))
         return
 
+#I'm temporarily using this command from a discord bot tutorial while I get an actual way to disable the bot once it's active
 @bot.command()
 async def stop(ctx):
     recorder.stop()
@@ -107,4 +110,4 @@ async def stop(ctx):
         await ctx.send("I am currently not recording here.")  # Respond with this if we aren't recording.
 
 
-#bot.run('insert token here')
+#bot.run(insert token here)
